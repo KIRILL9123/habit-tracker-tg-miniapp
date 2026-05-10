@@ -9,7 +9,7 @@
 ## Структура проекта
 
 - `frontend/` — React + Vite + TypeScript + Tailwind + `@twa-dev/sdk`
-- `backend/` — Node.js + Express + Telegraf + `node-cron`
+- `backend/` — Node.js + Express + Telegraf + `node-cron` + SQLite (`better-sqlite3`)
 
 ## MVP функции
 
@@ -23,8 +23,9 @@
 - Telegram-aware тёмная тема.
 
 ### Backend
-- `POST /reminder` — upsert напоминания;
+- `POST /reminder` — upsert напоминания (с валидацией формата);
 - `DELETE /reminder/:id?telegramUserId=...` — удалить напоминание;
+- SQLite-хранилище (`DB_PATH`) для напоминаний;
 - cron каждую минуту проверяет время и отправляет сообщение,
   если привычка ещё не отмечена сегодня.
 
@@ -40,6 +41,9 @@
 
 - `BOT_TOKEN` — токен бота от BotFather
 - `PORT` — порт сервера (по умолчанию `3001`)
+- `DB_PATH` — путь к SQLite файлу (например, `./data/reminders.sqlite`)
+
+Для Railway: укажите `DB_PATH` внутри смонтированного volume, чтобы данные не терялись после рестартов.
 
 ## Локальный запуск
 
@@ -72,7 +76,7 @@ npm run dev
 ## Ключевые файлы
 
 - `frontend/src/hooks/useHabits.ts` — CloudStorage + CRUD + вызовы backend
-- `frontend/src/hooks/useStreak.ts` — логика стриков
+- `frontend/src/hooks/streakUtils.ts` — логика стриков
 - `frontend/src/components/*` — UI карточек, формы, прогресса
 - `backend/bot.js` — API + Telegraf bootstrap
 - `backend/scheduler.js` — планировщик напоминаний

@@ -1,6 +1,6 @@
 import type { Habit } from "../types";
 import { formatDateISO } from "../utils/dateUtils";
-import { isCompletedToday } from "../hooks/useStreak";
+import { isCompletedToday } from "../hooks/streakUtils";
 
 type HabitCardProps = {
   habit: Habit;

@@ -7,7 +7,7 @@ import {
   isCompletedToday,
   resetStreakIfMissed,
   toggleHabitToday,
-} from "./useStreak";
+} from "./streakUtils";
 
 const STORAGE_KEY = "habits";
 

@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { HabitCard } from "./components/HabitCard";
 import { HabitForm } from "./components/HabitForm";
 import { ProgressBar } from "./components/ProgressBar";
 import { useHabits } from "./hooks/useHabits";
 import { formatDateISO } from "./utils/dateUtils";
-import { isCompletedToday } from "./hooks/useStreak";
+import { isCompletedToday } from "./hooks/streakUtils";
 
 const App = () => {
   const [showForm, setShowForm] = useState(false);
@@ -23,14 +23,13 @@ const App = () => {
     return habits.filter((habit) => isCompletedToday(habit, today)).length;
   }, [habits]);
 
-  const handleAddHabit = async (payload: {
-    name: string;
-    emoji: string;
-    reminderTime: string;
-  }) => {
-    await addHabit(payload);
-    setShowForm(false);
-  };
+  const handleAddHabit = useCallback(
+    async (payload: { name: string; emoji: string; reminderTime: string }) => {
+      await addHabit(payload);
+      setShowForm(false);
+    },
+    [addHabit],
+  );
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-lg bg-tg-bg px-4 pb-24 pt-5 text-tg-text">
